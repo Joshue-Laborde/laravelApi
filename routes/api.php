@@ -19,3 +19,7 @@ use Illuminate\Support\Facades\Route;
 Route::post('login', [LoginController::class, 'authenticate']);
 
 Route::get('user/index', [UserController::class, 'index']);
+
+//CRUD
+Route::post('user/create', [UserController::class, 'create']);
+Route::post('user/show', [UserController::class, 'show']);

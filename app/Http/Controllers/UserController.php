@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\User\IndexRequest;
-use App\Models\User;
+use App\Http\Requests\User\CreateRequest;
+use App\Http\Requests\User\ShowRequest;
 use App\Http\Resources\UserResource;
+use App\Models\User;
 
 class UserController extends Controller
 {
@@ -30,6 +32,23 @@ class UserController extends Controller
 
         //CON Resource va devolver los datos
         return  UserResource::collection(User::all());
+
+    }
+
+    public function create(CreateRequest $request){
+
+        $user = new User;
+        $user= $user->createModel($request);
+        return new UserResource($user);
+
+      /*  return response()->json([
+            'succes'=>true
+        ]); */ //se considera mala practica llenar todo aqui o definir los datos en el constructor, sino en los request
+    }
+
+    public function show(ShowRequest $request){
+        $user = User::findOrfail($request->user_id);
+        return new UserResource($user);
 
     }
 
