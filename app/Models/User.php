@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\Hash;
 
 class User extends Authenticatable
 {
@@ -44,7 +45,17 @@ class User extends Authenticatable
 
     //STORE
     public function createModel($request){
-        $user = $this->create($request->only(['name', 'email', 'password']));
+        $user = $this->create($request->only(['name', 'email'])+['password'=> Hash::make($request->password)]);
         return $user;
+    }
+
+    //update
+    public function updateModel($request){
+        $this->update($request->only(['name', 'email']));
+        return $this;
+    }
+
+    public function deleteModel(){
+        return  $this->delete();
     }
 }
